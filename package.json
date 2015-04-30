@@ -17,8 +17,12 @@
   },
   "homepage": "https://github.com/dancmj/hackernation",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.3",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.3.1",
     "express": "^4.12.3",
+    "express-session": "^1.11.1",
     "mongoose": "^4.0.2",
     "morgan": "^1.5.2",
     "passport": "^0.2.1",
