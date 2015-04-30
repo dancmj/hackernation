@@ -1,0 +1,23 @@
+{
+  "name": "HackerNation",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dancmj/hackernation.git"
+  },
+  "author": "dancmj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dancmj/hackernation/issues"
+  },
+  "homepage": "https://github.com/dancmj/hackernation",
+  "dependencies": {
+    "express": "^4.12.3",
+    "passport": "^0.2.1"
+  }
+}
