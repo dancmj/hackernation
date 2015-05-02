@@ -3,11 +3,11 @@ var Schema   = mongoose.Schema;
 
 //Post Schema
 var postSchema = new Schema({
-  title: String,
-  body: String,
-  postedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  title:      String,
+  body:       String,
+  postedBy:   {type: Schema.ObjectId, ref: 'User'}, //Types!
   dateCreated: Date,
-  comments: [{body:"string", by: mongoose.Schema.Types.ObjectId}]
+  replies:   [{body:"string", by: Schema.ObjectId}]
 });
 
 module.exports = mongoose.model('Post', postSchema);
