@@ -4,10 +4,15 @@ var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose');
-var config      = require('./config');
+var db          = require('./config/db.js');
 var path        = require('path');
 
-// APP CONFIG
+var passport    = require('passport');
+var flash       = require('connect-flash');
+var session     = require('express-session');
+var cookieParser = require('cookie-parser');
+
+// APP CONFIG====================================
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -21,9 +26,18 @@ app.use(function(req, res, next) {
 
 // log all requests to the console 
 app.use(morgan('dev'));
+app.use(cookieParser()); //Read cookies
+
+app.set('view engine', 'ejs');
 
 // connect to our database
-mongoose.connect(config.database); 
+mongoose.connect(db.database); 
+require('./config/passport')(passport)
+
+app.use(session({secret: 'allyourbasearebelongtous'}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 // set static files location
 // used for requests that our frontend will make
@@ -31,10 +45,26 @@ app.use(express.static(__dirname + '/public'));
 
 // ROUTES FOR OUR API =================
 // ====================================
-
-// API ROUTES ------------------------
+// require('./app/routes',app, express, passport)
+// API/OAUTH ROUTES ------------------------
 var apiRoutes = require('./app/routes/api')(app, express);
 app.use('/api', apiRoutes);
+var oauthRoutes = require('./app/routes/oauth')(app, express, passport);
+app.use('/oauth', oauthRoutes);
+
+///-----
+app.get('/', isAuthenticated, function(req, res){
+    res.send(req.user.name)
+});
+/// ----
+
+function isAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }else{
+    res.status(401).json({ message: "not authorized :(" })
+  }
+};
 
 // MAIN CATCHALL ROUTE --------------- 
 // SEND USERS TO FRONTEND ------------
@@ -45,7 +75,7 @@ app.get('*', function(req, res) {
 
 // START THE SERVER
 // ====================================
-app.listen(config.port);
-console.log('Please hack on harbor ' + config.port + ', gracias.');
+app.listen(db.port);
+console.log('Please hack on harbor ' + db.port + ', gracias.');
 
 
