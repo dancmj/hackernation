@@ -3,8 +3,8 @@ module.exports = function(passport){
   var GitHubStrategy = require('passport-github').Strategy;
 
   passport.use(new GitHubStrategy({
-      clientID:     "ce61c490b75829101dff",
-      clientSecret: "b46df7d24e8767cfb6de6ee9f3a10a8852024188",
+      clientID:     process.env.HACKERNATION_GITHUB_CLIENTID,
+      clientSecret: process.env.HACKERNATION_GITHUB_CLIENTSECRET,
       callbackURL:  "http://localhost:1337/oauth/github/callback"
     },
     function(accessToken, refreshToken, profile, done) {
@@ -12,10 +12,12 @@ module.exports = function(passport){
         if(err) return done(err); //connections
         if(!user){
           User.create(new User({
+            gravatarUrl: profile._json.avatar_url,
+            githubUrl: profile.profileUrl,
             githubId: profile.id,
             email:  profile.emails[0].value,
             name:   profile.displayName,
-            username: profile.username
+            username: profile.username,
           }), function(err, newUser){
             if(err) return done(err)
             return done(err, newUser);
