@@ -8,7 +8,7 @@ module.exports = function (app, express, passport) {
     };
 
   oauthRouter.get('/github/callback', //authenticate the request, redirect if fails
-    passport.authenticate('github', { failuteRedirect: '/login' }),
+    passport.authenticate('github', { failureRedirect: '/login' }),
     function (req, res) {
       res.redirect('/');
     });
