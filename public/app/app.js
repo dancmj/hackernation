@@ -1,0 +1,1 @@
+angular.module('hackernationApp', ['ngAnimate', 'app.routes', 'mainCtrl', 'homeCtrl']);

@@ -52,6 +52,7 @@ module.exports = function(app, express) {
     });
   });
   
+  //TODO CHANGE TO AN ACTUAL MIDDLEWARE :D
   apiRouter.param('thread_id', function(req, res, next, id){
     Thread.findById(req.params.thread_id, function(err, threadId){
       if(err){
@@ -60,7 +61,7 @@ module.exports = function(app, express) {
         req.threadId = threadId;
         next();
       }else{
-        next(new Error("Couldn't find thread."));
+        res.status(404).json({ message: " Thread not found :c "});
       }
     });
   });

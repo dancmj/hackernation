@@ -1,1 +1,43 @@
-quepedo
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Hackernation</title>
+
+  <!-- Angular routing -->
+  <base href="/">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/libs/bootstrap-css/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/libs/animate.css/animate.min.css">
+  <link rel="stylesheet" href="/assets/libs/fontawesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!--    JS    -->
+  <!--   LIBS   -->
+  <script src="/assets/libs/angular/angular.min.js"></script>
+  <script src="/assets/libs/angular-route/angular-route.js"></script>
+  <script src="/assets/libs/angular-animate/angular-animate.min.js"></script>
+  <script src="/assets/libs/angular-ui-bootstrap-bower/ui-bootstrap.min.js"></script>
+  <script src="/assets/libs/angular-gist/angular-gist.min.js"></script>
+
+  <!-- controllers -->
+  <script src="app/controllers/mainCtrl.js"></script>
+  <script src="app/controllers/homeCtrl.js"></script>
+  <script src="app/controllers/threadCtrl.js"></script>
+
+  <!-- services -->
+  <script src="app/services/threadService.js"></script>
+
+  <!-- main app files  -->
+  <script src="app/app.routes.js"></script>
+  <script src="app/app.js"></script>
+</head>
+
+<body ng-app="hackernationApp" ng-controller="mainController as main">
+  <main class="container">
+    <div ng-view></div>
+  </main>
+</body>
+
+</html>
