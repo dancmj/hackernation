@@ -1,3 +1,15 @@
 <div class="jumbotron text-center">
-	<h1>Welcome Manuel!!</h1>
+  <div class="jumbotron text-center" ng-show="home.processing">
+	<span ng-if="home.processing" class="glyphicon glyphicon-repeat spinner"></span>
+	<p>Loading Users...</p>
+  </div>
+  <table class="table table-bordered table-striped" ng-show="home.threads">
+    <tr ng-repeat="thread in home.threads">
+      <td>
+        <b>{{ thread.authorId.username }}</b>
+        <p>{{ thread.title }}</p>
+        <a href="/thread/{{thread._id}}" type="button" class="btn btn-default ">View Hack</a>
+      </td>
+    </tr>
+  </table>
 </div>

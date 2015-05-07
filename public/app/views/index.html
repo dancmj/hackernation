@@ -8,7 +8,7 @@
   <base href="/">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/libs/bootstrap-css/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/paper/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/libs/animate.css/animate.min.css">
   <link rel="stylesheet" href="/assets/libs/fontawesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="/assets/css/style.css">
@@ -35,6 +35,22 @@
 </head>
 
 <body ng-app="hackernationApp" ng-controller="mainController as main">
+  <header>
+    <div class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand"><span class="glyphicon glyphicon-fire text-danger"></span>Hackernation</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li ng-if="!main.loggedIn"><a href="/oauth/login" target="_self">Login</a>
+          </li>
+          <li ng-if="main.loggedIn" class="navbar-text">Hello {{ main.user.username }}!</li>
+          <li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
   <main class="container">
     <div ng-view></div>
   </main>

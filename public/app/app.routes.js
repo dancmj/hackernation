@@ -6,9 +6,10 @@ angular.module('app.routes', ['ngRoute']).config(['$routeProvider', '$locationPr
   })
   .when('/thread/:thread_id', { //THREAD CONTROLLER
     templateUrl: 'app/views/pages/thread.html',
-    controller: 'threadCtrl',
+    controller: 'threadController',
     controllerAs: 'thread'
-  });
+  })
+  .otherwise('/');
   
   $locationProvider.html5Mode(true);
 }]);

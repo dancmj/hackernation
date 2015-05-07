@@ -11,7 +11,7 @@ module.exports = function(app, express) {
     res.json({ message: 'Here be API' }); 
   });
   
-  apiRouter.route('/users').get(function(req, res){
+  apiRouter.route('/users').get(auth.isAuthenticated ,function(req, res){
     User.find({}, function(err, users){
       if(err) return res.send(err);
       res.json(users);
@@ -25,7 +25,6 @@ module.exports = function(app, express) {
       res.json(user);
     });
   });
-
 
   apiRouter.route('/threads')
   .post(function(req, res){
@@ -46,7 +45,8 @@ module.exports = function(app, express) {
       res.json({ message: 'Thread created!' });
     });
   }).get(function(req, res){
-    Thread.find({}, function(err, threads){
+    Thread.find().populate('authorId').exec(function(err, threads){
+//    Thread.find({}, function(err, threads){
       if(err) return res.send(err);
       res.json(threads);
     });
@@ -54,7 +54,7 @@ module.exports = function(app, express) {
   
   //TODO CHANGE TO AN ACTUAL MIDDLEWARE :D
   apiRouter.param('thread_id', function(req, res, next, id){
-    Thread.findById(req.params.thread_id, function(err, threadId){
+    Thread.findById(req.params.thread_id).populate('authorId').exec(function(err, threadId){
       if(err){
         next(err);
       }else if(threadId){
@@ -96,7 +96,7 @@ module.exports = function(app, express) {
       res.json({ message: 'Comment posted!' });
     });
   }).get(function(req, res){
-    Comment.find({}, function(err, comments){
+    Comment.find().populate('authorId').exec( function(err, comments){
       if(err) return res.send(err);
       res.json(comments);
     });
