@@ -1,4 +1,8 @@
-angular.module('mainCtrl', []).controller('mainController', ['$rootScope', '$location', function($rootScope, $location){
+angular.module('mainCtrl', ['authService']).controller('mainController', ['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth){
   var vm = this;
+  
+  Auth.get().success(function(data){
+    vm.user = data;
+  });
   
 }]);

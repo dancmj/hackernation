@@ -28,6 +28,7 @@
 
   <!-- services -->
   <script src="app/services/threadService.js"></script>
+  <script src="app/services/authService.js"></script>
 
   <!-- main app files  -->
   <script src="app/app.routes.js"></script>
@@ -42,10 +43,10 @@
           <a href="/" class="navbar-brand"><span class="glyphicon glyphicon-fire text-danger"></span>Hackernation</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-          <li ng-if="!main.loggedIn"><a href="/oauth/login" target="_self">Login</a>
+          <li ng-if="!main.user"><a href="/oauth/github" target="_self">Login</a>
           </li>
-          <li ng-if="main.loggedIn" class="navbar-text">Hello {{ main.user.username }}!</li>
-          <li ng-if="main.loggedIn"><a href="#" ng-click="main.doLogout()">Logout</a>
+          <li ng-if="main.user" class="navbar-text">Hello {{ main.user.username }}!</li>
+          <li ng-if="main.user"><a href="/oauth/logout" target="_self">Logout</a>
           </li>
         </ul>
       </div>

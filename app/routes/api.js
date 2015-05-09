@@ -54,7 +54,7 @@ module.exports = function(app, express) {
   
   //TODO CHANGE TO AN ACTUAL MIDDLEWARE :D
   apiRouter.param('thread_id', function(req, res, next, id){
-    Thread.findById(req.params.thread_id).populate('authorId').exec(function(err, threadId){
+    Thread.findById(req.params.thread_id, function(err, threadId){
       if(err){
         next(err);
       }else if(threadId){
@@ -69,7 +69,7 @@ module.exports = function(app, express) {
   //TODO, ADD PUT ROUTE.
   apiRouter.route('/threads/:thread_id')
   .get(function(req, res){
-      Thread.findById(req.threadId, function(err, thread){
+      Thread.findById(req.threadId).populate('authorId').exec(req.threadId, function(err, thread){
         if(err) res.send(err);
         res.json(thread);
       });

@@ -8,8 +8,7 @@ angular.module('app.routes', ['ngRoute']).config(['$routeProvider', '$locationPr
     templateUrl: 'app/views/pages/thread.html',
     controller: 'threadController',
     controllerAs: 'thread'
-  })
-  .otherwise('/');
+  }).otherwise('/');
   
   $locationProvider.html5Mode(true);
 }]);

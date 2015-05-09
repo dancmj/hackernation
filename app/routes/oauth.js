@@ -2,7 +2,7 @@ module.exports = function (app, express, passport) {
   var oauthRouter = express.Router();
   var auth       = require('../middlewares/auth');
   
-  oauthRouter.get('/session', auth.isAuthenticated, function(req, res){
+  oauthRouter.get('/session', function(req, res){
     res.json(req.user);
   });
 
@@ -22,7 +22,8 @@ module.exports = function (app, express, passport) {
     if(req.user) {
       req.logout();
       res.send(200);
-      res.redirect('/');
+    } else {
+      res.send(400, "Not logged in");
     }
   });
 

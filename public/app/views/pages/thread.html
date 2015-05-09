@@ -1,6 +1,10 @@
 <div class="jumbotron text-center">
-  <div class="jumbotron text-center" ng-show="home.processing">
-	<span ng-if="home.processing" class="glyphicon glyphicon-repeat spinner"></span>
-    <p>...</p>
+  <h1>{{thread.info.title}}</h1>
+  <h6>{{thread.info.authorId.username}}</h6>
+  <div class="jumbotron text-center" ng-show="thread.processing">
+    <span ng-if="thread.processing" class="glyphicon glyphicon-repeat spinner"></span>
+  </div>
+  <div>
+    <p>{{thread.info.body}}</p>
   </div>
 </div>
