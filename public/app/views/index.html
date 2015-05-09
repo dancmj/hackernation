@@ -36,22 +36,31 @@
 </head>
 
 <body ng-app="hackernationApp" ng-controller="mainController as main">
-  <header>
-    <div class="navbar navbar-inverse">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="/" class="navbar-brand"><span class="glyphicon glyphicon-fire text-danger"></span>Hackernation</a>
-        </div>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a ng-if="!main.user" class="navbar-brand" href="/"><i class="fa fa-code"></i> Hackernation</a>
+        <a ng-if="main.user" class="navbar-brand" href="/"><i class="fa fa-home"></i> {{ main.user.username }}</a>
+      </div>
+      <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
         <ul class="nav navbar-nav navbar-right">
-          <li ng-if="!main.user"><a href="/oauth/github" target="_self">Login</a>
+          <li ng-if="!main.user">
+            <a href="" ng-click="main.login()" target="_self">
+              <i class="fa fa-github-alt"></i> Login with Github
+            </a>
           </li>
-          <li ng-if="main.user" class="navbar-text">Hello {{ main.user.username }}!</li>
-          <li ng-if="main.user"><a href="/oauth/logout" target="_self">Logout</a>
+          <li ng-if="main.user">
+            <a href="" ng-click="main.logout()" target="_self"><i class="fa fa-sign-out"></i> Logout</a>
           </li>
         </ul>
       </div>
     </div>
-  </header>
+  </nav>
   <main class="container">
     <div ng-view></div>
   </main>

@@ -1,6 +1,5 @@
 module.exports = function (app, express, passport) {
   var oauthRouter = express.Router();
-  var auth       = require('../middlewares/auth');
   
   oauthRouter.get('/session', function(req, res){
     res.json(req.user);

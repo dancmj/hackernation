@@ -42,6 +42,11 @@ module.exports = function(app, express) {
           res.send(err);
         }
       } 
+      
+      User.findByIdAndUpdate(thread.authorId, { $push: {"threads": thread}},{  safe: true, upsert: true},function(err, model) {
+          if(err) res.send(err);
+      });
+      
       res.json({ message: 'Thread created!' });
     });
   }).get(function(req, res){
@@ -76,8 +81,28 @@ module.exports = function(app, express) {
   });
   
   apiRouter.route('/threads/:thread_id/comments')
-  .get(function(req, res){
-    Comment.find({ threadId: req.threadId }, function(err, comments){
+  .post(function(req, res){
+    var comment = new Comment();
+    
+    comment.body = req.body.body;
+    comment.authorId = req.body.authorId;
+    comment.threadId = req.threadId;
+    
+    comment.save(function(err){
+      if(err) res.send(err);
+      
+      User.findByIdAndUpdate(comment.authorId,{ $push: {"comments": comment}},{  safe: true, upsert: true},function(err, model) {
+          if(err) res.send(err);
+      });
+      
+      Thread.findByIdAndUpdate(comment.threadId,{ $push: {"comments": comment}},{  safe: true, upsert: true},function(err, model) {
+          if(err) res.send(err);
+      });
+      
+      res.json({ message: 'Comment posted!' });
+    });
+  }).get(function(req, res){
+    Comment.find({ threadId: req.threadId }).populate('authorId').exec( function(err, comments){
       if(err) return res.send(err);
       res.json(comments);
     });

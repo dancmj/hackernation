@@ -7,4 +7,12 @@
   <div>
     <p>{{thread.info.body}}</p>
   </div>
+  <table class="table table-bordered table-striped" ng-show="thread.comments">
+    <tr ng-repeat="comment in thread.comments">
+      <td>
+      <p>{{comment.authorId.username}}</p>
+      <p>{{comment.body}}</p>
+      </td>
+    </tr>
+  </table>
 </div>

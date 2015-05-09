@@ -8,7 +8,7 @@ var threadSchema = new Schema({
   dateCreated: { type: Date, default: Date.now },
   dateEdited:  { type: Date, default: null },
   authorId:    { type: Schema.ObjectId, ref: 'User' }, //Types!
-//  comments:   [{ type: Schema.ObjectId, ref: 'Comment' }],
+  comments:   [{ type: Schema.ObjectId, ref: 'Comment' }],
 //  solutions:  [{ type: Schema.ObjectId, ref: 'Solution' }]
 });
 

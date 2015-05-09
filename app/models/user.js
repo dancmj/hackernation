@@ -10,7 +10,9 @@ var userSchema = new Schema({
   githubUrl: String,
   gravatarUrl: String,
   isAdmin: { type : Boolean, default: false },
-  creationDate: { type : Date, default: Date.now }
+  creationDate: { type : Date, default: Date.now },
+  comments:   [{ type: Schema.ObjectId, ref: 'Comment' }],
+  threads:    [{ type: Schema.ObjectId, ref: 'Thread' }],
 });
 
 module.exports = mongoose.model('User', userSchema);
