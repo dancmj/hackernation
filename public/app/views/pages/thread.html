@@ -1,18 +1,56 @@
-<div class="jumbotron text-center">
-  <h1>{{thread.info.title}}</h1>
+<div class="jumbotron">
+  <h1 class="text-center">{{thread.info.title}}</h1>
   <h6>{{thread.info.authorId.username}}</h6>
   <div class="jumbotron text-center" ng-show="thread.processing">
     <span ng-if="thread.processing" class="glyphicon glyphicon-repeat spinner"></span>
   </div>
   <div>
-    <p>{{thread.info.body}}</p>
+    <p ng-bind-html="thread.info.body"></p>
   </div>
-  <table class="table table-bordered table-striped" ng-show="thread.comments">
-    <tr ng-repeat="comment in thread.comments">
-      <td>
-      <p>{{comment.authorId.username}}</p>
-      <p>{{comment.body}}</p>
-      </td>
-    </tr>
-  </table>
+</div>
+
+<ul class="nav nav-tabs">
+  <li ng-class="{active: thread.activeTab == 'comments'}"><a ng-click='thread.activeTab = "comments"'>Comments</a>
+  </li>
+  <li ng-class="{active: thread.activeTab == 'solutions'}"><a ng-click='thread.activeTab = "solutions"'>Solutions</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div ng-switch='thread.activeTab'>
+    <div ng-switch-when='comments'>
+      <table class="table table-bordered table-striped" ng-show="thread.comments">
+        <tr ng-if="thread.comments.length == 0">
+          <td class="row text-center">
+            Noone has commented here yet, add a comment!
+          </td>
+        </tr>
+        <tr ng-repeat="comment in thread.comments">
+          <td class="row">
+            <div class="col-xs-2 hidden-xs thumbnail">
+              <img src="{{comment.authorId.gravatarUrl}}" alt="">
+            </div>
+            <div class="col-xs-10">
+              <div class="row">
+                <div class="col-xs-12">
+                  {{comment.authorId.username}} <i class="fa fa-clock-o"></i> {{main.getDate(comment.dateCreated)}}
+                </div>
+                <div class="col-xs-12">
+                  {{comment.body}}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div ng-switch-when='solutions'>
+      <table class="table table-bordered table-striped" ng-show="thread.solutions">
+        <tr ng-if="thread.solutions.length == 0">
+          <td class="row text-center">
+            Noone has provided a solution, yet.
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>

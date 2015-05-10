@@ -43,7 +43,7 @@ module.exports = function(app, express) {
         }
       } 
       
-      User.findByIdAndUpdate(thread.authorId, { $push: {"threads": thread}},{  safe: true, upsert: true},function(err, model) {
+      User.findByIdAndUpdate(thread.authorId, { $push: {"threads": thread}}, {  safe: true, upsert: true}, function(err, model) {
           if(err) res.send(err);
       });
       

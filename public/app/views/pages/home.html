@@ -1,7 +1,32 @@
+<div ng-if="user">
+  <button class="btn btn-default" ng-click="home.newThreadCollapsed = !home.newThreadCollapsed"><i class="fa fa-plus"></i> new hack</button>
+  <div collapse="home.newThreadCollapsed">
+    <div class="well well-lg">
+      <div class="row">
+        <div class="col-xs-12 form-group">
+          <label>Title:</label>
+          <input type="text" ng-model="home.hackTitle" class="form-control white-background">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 form-group">
+          <label>Description:</label>
+          <div text-angular class="white-background" ng-model="home.hackDescription"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-default extend-full-width" ng-click="home.submitHack()"> Submit hack!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="jumbotron text-center">
   <div class="jumbotron text-center" ng-show="home.processing">
-	<span ng-if="home.processing" class="glyphicon glyphicon-repeat spinner"></span>
-	<p>Loading Threads...</p>
+    <span ng-if="home.processing" class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading Threads...</p>
   </div>
   <table class="table table-bordered table-striped" ng-show="home.threads">
     <tr ng-repeat="thread in home.threads">

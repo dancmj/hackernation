@@ -7,7 +7,8 @@ var solutionSchema = new Schema({
   gistUrl: String,
 	dateCreated: { type : Date, default: Date.now },
 	dateEdited: { type : Date, default: null },
-  authorId: { type: Schema.ObjectId, ref: 'User', required: true }
+  threadId: { type : Schema.ObjectId, ref : 'Thread', required: true },
+  authorId: { type: Schema.ObjectId, ref: 'User', required: true },
 //  replies: [{type: Schema.ObjectId, ref: 'Comment'}]
 });
 

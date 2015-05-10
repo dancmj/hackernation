@@ -10,7 +10,7 @@ angular.module('threadService', []).factory('Thread', function($http){
   };
   
   threadFactory.create = function(threadData){
-    return $http.put('/api/threads/', threadData);
+    return $http.post('/api/threads/', threadData);
   };
   
   threadFactory.getComments = function(id){

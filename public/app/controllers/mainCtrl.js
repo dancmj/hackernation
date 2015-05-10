@@ -2,7 +2,7 @@ angular.module('mainCtrl', ['authService']).controller('mainController', ['$root
   var vm = this;
 
   Auth.get().success(function (data) {
-    vm.user = data;
+    $rootScope.user = data;
   });
   
   vm.login = function(){
@@ -11,11 +11,15 @@ angular.module('mainCtrl', ['authService']).controller('mainController', ['$root
 
   vm.logout = function () {
     Auth.logout().success(function (data) {
-      vm.user = null;
+      $rootScope.user = null;
       window.location = '/';
     });
   };
 
+  vm.getDate = function(date){
+    var parsedDate = new Date(date);
+    return parsedDate.toDateString()
+  };
 
 
 }]);
