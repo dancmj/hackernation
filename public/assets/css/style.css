@@ -3,7 +3,16 @@ body {
 }
 
 p {
-  word-wrap: break-word;
+  word-wrap: normal;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .well-textPreview {
@@ -76,6 +85,7 @@ p {
     -moz-transform: rotate(360deg);
   }
 }
+
 .md-generic-input {
   width: 100%;
   height: 350px;
@@ -85,20 +95,21 @@ p {
 button.extend-full-width {
   width: 100%;
   color: #f0f0f0;
-  background-image:  radial-gradient(circle, #2196f3 80%, #f0f0f0 81%);
+  background-image: radial-gradient(circle, #2196f3 80%, #f0f0f0 81%);
 }
 
 input.extend-full-width {
-  width: 100%;    
+  width: 100%;
 }
 
-.white-background p{
+.white-background p {
   background-color: #fcfcfc;
 }
-.white-background{
+
+.white-background {
   background-color: #fff;
 }
 
-.white-background .form-control{
+.white-background .form-control {
   background-color: #fff;
 }

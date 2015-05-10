@@ -12,14 +12,14 @@ var threadSchema = new Schema({
   solutions:  [{ type: Schema.ObjectId, ref: 'Solution' }],
 });
 
-threadSchema.pre('save', function(next){
-  var now = new Date();
-  if ( !this.dateCreated ) {
-    this.dateCreated = now;
-  }else{
-    this.dateEdited = now;
-  }
-  next();
-});
+//threadSchema.pre('save', function(next){
+//  var now = new Date();
+//  if ( !this.dateCreated ) {
+//    this.dateCreated = now;
+//  }else{
+//    this.dateEdited = now;
+//  }
+//  next();
+//});
 
 module.exports = mongoose.model('Thread', threadSchema);

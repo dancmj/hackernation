@@ -17,5 +17,9 @@ angular.module('threadService', []).factory('Thread', function($http){
     return $http.get('/api/threads/' + id + '/comments');
   };
   
+  threadFactory.createComment = function(id, commentData){
+    return $http.post('/api/threads/' + id +'/comments', commentData);
+  };
+  
   return threadFactory;
 });

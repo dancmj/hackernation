@@ -11,7 +11,10 @@ module.exports = function(app, express) {
     res.json({ message: 'Here be API' }); 
   });
   
-  apiRouter.route('/users').get(auth.isAuthenticated ,function(req, res){
+//================= USERS =================
+//=========================================
+  
+  apiRouter.route('/users').get(function(req, res){
     User.find({}, function(err, users){
       if(err) return res.send(err);
       res.json(users);
@@ -26,6 +29,8 @@ module.exports = function(app, express) {
     });
   });
 
+//=============== THREADS =================
+//=========================================
   apiRouter.route('/threads')
   .post(function(req, res){
     var thread = new Thread();
@@ -46,17 +51,17 @@ module.exports = function(app, express) {
       User.findByIdAndUpdate(thread.authorId, { $push: {"threads": thread}}, {  safe: true, upsert: true}, function(err, model) {
           if(err) res.send(err);
       });
+      
       res.json({ message: 'Thread created!' , id: thread._id });
     });
   }).get(function(req, res){
     Thread.find().populate('authorId').exec(function(err, threads){
-//    Thread.find({}, function(err, threads){
       if(err) return res.send(err);
       res.json(threads);
     });
   });
   
-  //TODO CHANGE TO AN ACTUAL MIDDLEWARE :D
+  //======= GET THREAD_ID VARIABLE ======== MIDDLEWARE =======
   apiRouter.param('thread_id', function(req, res, next, id){
     Thread.findById(req.params.thread_id, function(err, threadId){
       if(err){
@@ -70,7 +75,7 @@ module.exports = function(app, express) {
     });
   });
   
-  //TODO, ADD PUT ROUTE.
+  //======= THREAD FROM ID
   apiRouter.route('/threads/:thread_id')
   .get(function(req, res){
       Thread.findById(req.threadId).populate('authorId').exec(req.threadId, function(err, thread){
@@ -79,6 +84,8 @@ module.exports = function(app, express) {
       });
   });
   
+//========== THREAD->COMMENTS =============
+//=========================================
   apiRouter.route('/threads/:thread_id/comments')
   .post(function(req, res){
     var comment = new Comment();
@@ -86,6 +93,7 @@ module.exports = function(app, express) {
     comment.body = req.body.body;
     comment.authorId = req.body.authorId;
     comment.threadId = req.threadId;
+    comment.gistUrl = req.body.gistUrl;
     
     comment.save(function(err){
       if(err) res.send(err);
@@ -98,15 +106,17 @@ module.exports = function(app, express) {
           if(err) res.send(err);
       });
       
-      res.json({ message: 'Comment posted!' });
+      res.json({ message: 'Comment posted!' , id: comment._id});
     });
   }).get(function(req, res){
-    Comment.find({ threadId: req.threadId }).populate('authorId').exec( function(err, comments){
+    Comment.find({ threadId: req.threadId }).sort("-dateCreated").populate('authorId').exec( function(err, comments){
       if(err) return res.send(err);
       res.json(comments);
     });
   });
   
+//=============== COMMENTS ================
+//=========================================
   apiRouter.route('/comments')
   .post(function(req, res){
     var comment = new Comment();

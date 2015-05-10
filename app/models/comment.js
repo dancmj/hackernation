@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 //Comment Schema
 var commentSchema = new Schema({
 	body: String,
+  gistUrl: { type : String, default : null },
 	dateCreated: { type : Date, default : Date.now },
 	dateEdited: { type : Date, default : null },
   threadId: { type : Schema.ObjectId, ref : 'Thread', required: true },

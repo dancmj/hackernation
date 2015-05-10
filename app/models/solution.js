@@ -9,7 +9,7 @@ var solutionSchema = new Schema({
 	dateEdited: { type : Date, default: null },
   threadId: { type : Schema.ObjectId, ref : 'Thread', required: true },
   authorId: { type: Schema.ObjectId, ref: 'User', required: true },
-//  replies: [{type: Schema.ObjectId, ref: 'Comment'}]
+//  replies: [{type: Schema.ObjectId, ref: 'Comment'}],
 });
 
 module.exports = mongoose.model('Solution', solutionSchema);
