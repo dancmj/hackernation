@@ -12,7 +12,4 @@ angular.module('threadCtrl', ['threadService']).controller('threadController', [
   Thread.getComments($routeParams.thread_id).success(function (data) {
     vm.comments = data;
   });
-  
-  
-  
 }]);

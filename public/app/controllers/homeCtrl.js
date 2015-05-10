@@ -1,7 +1,8 @@
-angular.module('homeCtrl', ['threadService']).controller('homeController', ['$rootScope', '$location', 'Thread', function ($rootScope, $location, Thread) {
+angular.module('homeCtrl', ['threadService']).controller('homeController', ['$rootScope', '$location', '$timeout', 'Thread', function ($rootScope, $location, $timeout, Thread) {
   var vm = this;
   
   vm.processing = this;
+  vm.processingPost = false;
   vm.newThreadCollapsed = true;
   vm.titleEmpty = false;
   vm.bodyEmpty = false;
@@ -24,10 +25,12 @@ angular.module('homeCtrl', ['threadService']).controller('homeController', ['$ro
       body: vm.hackDescription,
       authorId: $rootScope.user._id
     };
-    console.log(threadInfo);
+
     Thread.create(threadInfo).success(function(data){
-      console.log(data);
-//      $location.path('/data')
+      vm.processingPost = true;
+     $timeout(function(){
+       $location.path('/thread/' + data.id);
+     }, 2000);
     });
   }
   

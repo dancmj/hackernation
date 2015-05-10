@@ -42,12 +42,11 @@ module.exports = function(app, express) {
           res.send(err);
         }
       } 
-      
+
       User.findByIdAndUpdate(thread.authorId, { $push: {"threads": thread}}, {  safe: true, upsert: true}, function(err, model) {
           if(err) res.send(err);
       });
-      
-      res.json({ message: 'Thread created!' });
+      res.json({ message: 'Thread created!' , id: thread._id });
     });
   }).get(function(req, res){
     Thread.find().populate('authorId').exec(function(err, threads){
