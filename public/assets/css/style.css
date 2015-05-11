@@ -6,6 +6,10 @@ p {
   word-wrap: normal;
 }
 
+img {
+  max-width: 100%;
+}
+
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

@@ -27,13 +27,12 @@ angular.module('threadCtrl', ['threadService']).controller('threadController', [
   };
   
   vm.submitSolution = function(){
-    console.log(vm.gistUrl.search(/(https:\/\/gist.github.com\/)+\w*\/\w{20,20}$/i))
     if(vm.gistUrl.search(/(https:\/\/gist.github.com\/)+\w*\/\w{20,20}$/i) != 0){
       return;
     }
     
     var parsedUrl = vm.gistUrl.replace(/(https:\/\/gist.github.com\/)+\w*\//i, '');
-    console.log(parsedUrl);
+    
     var commentInfo = {
       gistUrl: parsedUrl,
       authorId: $rootScope.user._id
