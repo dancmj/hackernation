@@ -1,0 +1,102 @@
+<div class="jumbotron">
+  <h1 class="text-center">{{thread.info.title}}</h1>
+  <h6>{{thread.info.authorId.username}}</h6>
+  <div class="jumbotron text-center" ng-show="thread.processing">
+    <span ng-if="thread.processing" class="glyphicon glyphicon-repeat spinner"></span>
+  </div>
+  <div>
+    <p ng-bind-html="thread.info.body"></p>
+  </div>
+</div>
+
+<ul class="nav nav-tabs noselect">
+  <li ng-class="{active: thread.activeTab == 'comments'}"><a ng-click='thread.activeTab = "comments"'>Comments</a>
+  </li>
+  <li ng-class="{active: thread.activeTab == 'solutions'}"><a ng-click='thread.activeTab = "solutions"'>Solutions</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div ng-switch='thread.activeTab'>
+    <div ng-switch-when='comments'>
+      <div ng-if="user">
+        <button class="btn btn-default" ng-click="thread.newCommentCollapsed = !thread.newCommentCollapsed"><i class="fa fa-plus"></i> new comment</button>
+        <div collapse="thread.newCommentCollapsed">
+          <div class="well well-lg">
+            <div class="row">
+              <div class="col-xs-12 form-group">
+                <label>Description:</label>
+                <div text-angular class="white-background" ng-model="thread.commentBody"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button class="btn btn-default extend-full-width" ng-click="thread.submitComment()">Submit comment!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped" ng-show="thread.comments">
+        <tr ng-if="thread.comments.length == 0">
+          <td class="row text-center">
+            Noone has commented here yet, add a comment!
+          </td>
+        </tr>
+        <tr ng-repeat="comment in thread.comments">
+          <td ng-if="!comment.gistUrl" class="row">
+            <div class="col-xs-2 hidden-xs thumbnail">
+              <img src="{{comment.authorId.gravatarUrl}}" alt="">
+            </div>
+            <div class="col-xs-10">
+              <div class="row">
+                <div class="col-xs-12">
+                  {{comment.authorId.username}} <i class="fa fa-clock-o"></i> {{main.getDate(comment.dateCreated)}}
+                </div>
+                <div ng-bind-html="comment.body" class="col-xs-12">
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div ng-switch-when='solutions'>
+      <div ng-if="user">
+        <button class="btn btn-default" ng-click="thread.newCommentCollapsed = !thread.newCommentCollapsed"><i class="fa fa-plus"></i> new solution</button>
+        <div collapse="thread.newCommentCollapsed">
+          <div class="well well-lg">
+            <div class="row">
+              <div class="col-xs-12 form-group">
+                <label>Gist Link / ID:</label>
+                <input type="text" ng-model="thread.gistUrl" class="form-control white-background">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button class="btn btn-default extend-full-width" ng-click="thread.submitSolution()">Submit solution!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped" ng-show="thread.comments">
+        <tr ng-repeat="comment in thread.comments">
+          <td ng-if="comment.gistUrl" class="row">
+            <div class="col-sm-2 hidden-xs thumbnail">
+              <img src="{{comment.authorId.gravatarUrl}}" alt="">
+            </div>
+            <div class="col-sm-10 col-xs-12">
+              <div class="row">
+                <div class="col-xs-12">
+                  {{comment.authorId.username}} <i class="fa fa-clock-o"></i> {{main.getDate(comment.dateCreated)}}
+                </div>
+                <div class="col-xs-12">
+                  <gist id="{{comment.gistUrl}}"></gist>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>

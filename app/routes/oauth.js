@@ -1,5 +1,9 @@
 module.exports = function (app, express, passport) {
   var oauthRouter = express.Router();
+  
+  oauthRouter.get('/session', function(req, res){
+    res.json(req.user);
+  });
 
   oauthRouter.get('/github', //redirect to github
     passport.authenticate('github')), 
@@ -8,14 +12,18 @@ module.exports = function (app, express, passport) {
     };
 
   oauthRouter.get('/github/callback', //authenticate the request, redirect if fails
-    passport.authenticate('github', { failureRedirect: '/login' }),
+    passport.authenticate('github', { failureRedirect: '/' }),
     function (req, res) {
       res.redirect('/');
     });
 
   oauthRouter.get('/logout', function (req, res) {
-    req.logout();
-    res.redirect('/');
+    if(req.user) {
+      req.logout();
+      res.send(200);
+    } else {
+      res.send(400, "Not logged in");
+    }
   });
 
   return oauthRouter;

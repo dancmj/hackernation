@@ -4,7 +4,7 @@ module.exports = {
 };
 
 function isAuthenticated(req, res, next){ ///API needs authorized user.
-  if(req.isAuthenticated()){
+  if(req.user){
     return next();
   }else{
     res.status(401).json({ message: "not authorized :(" })
