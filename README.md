@@ -1,6 +1,6 @@
 # hackernation
 
-A single page application forum using [MEAN.IO](http://mean.io/).
+A single page application forum using [MEAN](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and).
 
 The purpose of hackernation as a platform is to share computer science / math problems meant to be solved using algorithms.
 
