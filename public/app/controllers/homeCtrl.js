@@ -28,9 +28,7 @@ angular.module('homeCtrl', ['threadService']).controller('homeController', ['$ro
 
     Thread.create(threadInfo).success(function(data){
       vm.processingPost = true;
-     $timeout(function(){
        $location.path('/thread/' + data.id);
-     }, 2000);
     });
   }
   

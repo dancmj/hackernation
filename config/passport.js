@@ -5,7 +5,7 @@ module.exports = function(passport){
   passport.use(new GitHubStrategy({
       clientID:     process.env.HACKERNATION_GITHUB_CLIENTID,
       clientSecret: process.env.HACKERNATION_GITHUB_CLIENTSECRET,
-      callbackURL:  "/oauth/github/callback"
+      callbackURL:  "http://localhost:1337/oauth/github/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       User.findOne({ githubId: profile.id }, function (err, user) {
