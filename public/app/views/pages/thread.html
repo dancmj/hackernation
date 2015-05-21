@@ -44,10 +44,10 @@
         </tr>
         <tr ng-repeat="comment in thread.comments">
           <td ng-if="!comment.gistUrl" class="row">
-            <div class="col-xs-2 hidden-xs thumbnail">
+            <div class="col-sm-2 hidden-xs thumbnail">
               <img src="{{comment.authorId.gravatarUrl}}" alt="">
             </div>
-            <div class="col-xs-10">
+            <div class="col-sm-10 col-xs-12">
               <div class="row">
                 <div class="col-xs-12">
                   {{comment.authorId.username}} <i class="fa fa-clock-o"></i> {{main.getDate(comment.dateCreated)}}
