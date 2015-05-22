@@ -6,7 +6,7 @@ The purpose of hackernation as a platform is to share computer science / math pr
 
 ## Installation
 
-* Hackernation is hosted here in Github. You follow one of these steps to download hackernation and run it locally on your computer:
+* Hackernation is hosted here in Github. Simply follow one of these steps to download hackernation to your computer so you can run it locally:
   * Clone the git repository using ssh, https or with the [Windows](https://windows.github.com/) or [Mac](https://mac.github.com/) clients.
   * Download it as a [zip](https://github.com/dancmj/hackernation/archive/master.zip) file.
 * Update the environment variables!
