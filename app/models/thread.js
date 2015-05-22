@@ -10,14 +10,4 @@ var threadSchema = new Schema({
   authorId:    { type: Schema.ObjectId, ref: 'User' }, //Types!
 });
 
-//threadSchema.pre('save', function(next){
-//  var now = new Date();
-//  if ( !this.dateCreated ) {
-//    this.dateCreated = now;
-//  }else{
-//    this.dateEdited = now;
-//  }
-//  next();
-//});
-
 module.exports = mongoose.model('Thread', threadSchema);

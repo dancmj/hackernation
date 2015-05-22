@@ -1,4 +1,8 @@
 <div class="jumbotron">
+  <button ng-if="thread.info.authorId.username === user.username" class="btn btn-danger pull-right" ng-click="thread.deleteHack()">
+    <i class="fa fa-trash-o fa-lg"></i>
+  </button>
+
   <h1 class="text-center">{{thread.info.title}}</h1>
   <h6>{{thread.info.authorId.username}}</h6>
   <div class="jumbotron text-center" ng-show="thread.processing">
@@ -9,6 +13,9 @@
   </div>
 </div>
 
+<alert ng-repeat="alert in thread.alerts" type="{{alert.type}}" close="thread.closeAlert($index)">
+  {{alert.msg}}
+</alert>
 <ul class="nav nav-tabs noselect">
   <li ng-class="{active: thread.activeTab == 'comments'}"><a ng-click='thread.activeTab = "comments"'>Comments</a>
   </li>
@@ -51,6 +58,9 @@
               <div class="row">
                 <div class="col-xs-12">
                   {{comment.authorId.username}} <i class="fa fa-clock-o"></i> {{main.getDate(comment.dateCreated)}}
+                  <button ng-if="comment.authorId.username === user.username" class="btn btn-danger pull-right" ng-click="thread.deleteComment(comment._id)">
+                    <i class="fa fa-trash-o fa-lg"></i>
+                  </button>
                 </div>
                 <div ng-bind-html="comment.body" class="col-xs-12">
                 </div>
@@ -89,6 +99,9 @@
               <div class="row">
                 <div class="col-xs-12">
                   {{comment.authorId.username}} <i class="fa fa-clock-o"></i> {{main.getDate(comment.dateCreated)}}
+                  <button ng-if="comment.authorId.username === user.username" class="btn btn-danger pull-right" ng-click="thread.deleteComment()">
+                    <i class="fa fa-trash-o fa-lg"></i>
+                  </button>
                 </div>
                 <div class="col-xs-12">
                   <gist id="{{comment.gistUrl}}"></gist>

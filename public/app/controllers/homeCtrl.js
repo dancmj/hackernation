@@ -2,6 +2,9 @@ angular.module('homeCtrl', ['threadService']).controller('homeController', ['$ro
   var vm = this;
   
   vm.alerts = [];
+  vm.closeAlert = function(index) {
+    vm.alerts.splice(index, 1);
+  };
   
   vm.processing = this;
   vm.processingPost = false;
@@ -14,10 +17,12 @@ angular.module('homeCtrl', ['threadService']).controller('homeController', ['$ro
 
   vm.submitHack = function(){
     if(vm.hackTitle == ""){
+      vm.alerts[0] = { msg: 'The title can\'t be empty.' };
       vm.titleEmpty = true;
       return;
     }
     if(vm.hackDescription == ""){
+      vm.alerts[0] = { msg: 'The description can\'t be empty.' };
       vm.descriptionEmpty = true;
       return;
     }
@@ -45,9 +50,4 @@ angular.module('homeCtrl', ['threadService']).controller('homeController', ['$ro
 //    vm.alerts.push({ msg: 'Couldn\'t find any threads :c.' });
     vm.alerts[0] = { msg: 'Couldn\'t find any threads :c.' }; 
   });
-
-   vm.closeAlert = function(index) {
-    vm.alerts.splice(index, 1);
-  };
-
 }]);
