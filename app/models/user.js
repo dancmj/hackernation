@@ -11,9 +11,6 @@ var userSchema = new Schema({
   gravatarUrl: String,
   isAdmin: { type : Boolean, default: false },
   creationDate: { type : Date, default: Date.now },
-  comments:   [{ type: Schema.ObjectId, ref: 'Comment' }],
-  solutions:   [{ type: Schema.ObjectId, ref: 'Solution' }],
-  threads:    [{ type: Schema.ObjectId, ref: 'Thread' }],
 });
 
 module.exports = mongoose.model('User', userSchema);

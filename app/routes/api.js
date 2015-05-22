@@ -14,17 +14,31 @@ module.exports = function(app, express) {
 //================= USERS =================
 //=========================================
   
-  apiRouter.route('/users').get(function(req, res){
+  apiRouter.route('/users').get( auth.isAdmin, function(req, res){
     User.find({}, function(err, users){
       if(err) return res.status(400).json(err);
       res.json(users);
     });
   });
   
-  //TODO, ADD GET THREADS & COMMENTS FROM USER
-  apiRouter.route('/users/:user_id').get(function(req, res){
-    User.findById(req.params.user_id, function(err, user){
-      if(err) res.status(404).json(err);
+  //======= GET USER_ID VARIABLE ======== MIDDLEWARE =======
+  apiRouter.param('user_id', function( req, res, next, id){
+    Thread.findById(req.params.user_id, function(err, userId){
+      if(err){
+        next(err);
+      }else if(userId){
+        req.userId = userId;
+        next();
+      }else{
+        res.status(404).json({ message: " User not found :c "});
+      }
+    });
+  });
+  
+  //========= USER FROM ID
+  apiRouter.route('/users/:user_id').get( auth.isAdmin, function(req, res){
+    User.findById(req.userId, function(err, user){
+      if(err) return res.status(404).json(err);
       res.json(user);
     });
   });
@@ -40,13 +54,7 @@ module.exports = function(app, express) {
     thread.authorId = req.body.authorId;
 
     thread.save(function(err){
-      if(err){
-        return res.status(400).json(err);
-      } 
-
-      User.findByIdAndUpdate(thread.authorId, { $push: {"threads": thread}}, {  safe: true, upsert: true}, function(err, model) {
-          if(err) res.status(400).json(err);
-      });
+      if(err) return res.status(400).json(err);
       
       res.json({ message: 'Thread created!' , id: thread._id });
     });
@@ -78,7 +86,18 @@ module.exports = function(app, express) {
         if(err) res.status(404).json(err);
         res.json(thread);
       });
-  });
+  }).delete(function(req, res){
+        
+    Comment.find({ threadId: req.threadId }).remove(function(err){
+      if(err) return res.status(404).json(err);
+    });
+    
+    Thread.findByIdAndRemove( req.threadId, function(err){
+      if(err) return res.status(404).json(err);
+    });
+    
+    res.json({ message: 'Thread deleted!' }); 
+  });;
   
 //========== THREAD->COMMENTS =============
 //=========================================
@@ -93,14 +112,6 @@ module.exports = function(app, express) {
     
     comment.save(function(err){
       if(err) res.status(400).json(err);
-      
-      User.findByIdAndUpdate(comment.authorId,{ $push: {"comments": comment}},{  safe: true, upsert: true},function(err, model) {
-          if(err) res.status(400).json(err);
-      });
-      
-      Thread.findByIdAndUpdate(comment.threadId,{ $push: {"comments": comment}},{  safe: true, upsert: true},function(err, model) {
-          if(err) res.status(400).json(err);
-      });
       
       res.json({ message: 'Comment posted!' , id: comment._id});
     });
@@ -132,12 +143,31 @@ module.exports = function(app, express) {
     });
   });
   
-  //TODO, ADD PUT ROUTE.
-  apiRouter.route('/comments/:comment_id')
-  .get(function(req, res){
-    Comment.findById(req.params.comment_id, function(err, comment){
-      if(err) res.status(404).json(err);
+  //======= GET COMMENT_ID VARIABLE ======== MIDDLEWARE =======
+  apiRouter.param('comment_id', function(req, res, next, id){
+    Comment.findById(req.params.comment_id, function(err, commentId){
+      if(err){
+        next(err);
+      }else if(commentId){
+        req.commentId = commentId;
+        next();
+      }else{
+        res.status(404).json({ message: " Comment not found :c "});
+      }
+    });
+  });
+  
+  
+  //======= COMMENT FROM ID =======
+  apiRouter.route('/comments/:comment_id').get(function(req, res){
+    Comment.findById( req.commentId, function(err, comment){
+      if(err) return res.status(404).json(err);
       res.json(comment);
+    });
+  }).delete(function(req, res){
+    Comment.findByIdAndRemove( req.commentId , function(err){
+      if(err) return res.status(404).json(err);
+      res.json({ message: 'Comment deleted!' }); 
     });
   });
 
