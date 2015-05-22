@@ -33,7 +33,7 @@ angular.module('homeCtrl', ['threadService']).controller('homeController', ['$ro
       $location.path('/thread/' + data.id)
     }).error(function(status){
       vm.processingPost = false;
-      vm.alerts.push({ msg: 'Thread name already exists!' });
+      vm.alerts[0] = { msg: 'Thread name already exists!' };
     });
   };
   
@@ -42,12 +42,12 @@ angular.module('homeCtrl', ['threadService']).controller('homeController', ['$ro
     vm.threads = data;
   }).error(function(status){
     vm.processing = false;
-    vm.alerts.push({ msg: 'Couldn\'t find any threads :c.' }); 
+//    vm.alerts.push({ msg: 'Couldn\'t find any threads :c.' });
+    vm.alerts[0] = { msg: 'Couldn\'t find any threads :c.' }; 
   });
 
    vm.closeAlert = function(index) {
-//    vm.alerts.splice(index, 1);
-    vm.alerts.splice(0, 1);
+    vm.alerts.splice(index, 1);
   };
 
 }]);
