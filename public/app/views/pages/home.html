@@ -22,7 +22,9 @@
     </div>
   </div>
 </div>
-
+<alert ng-repeat="alert in home.alerts" type="{{alert.type}}" close="home.closeAlert($index)">
+  {{alert.msg}}
+</alert>
 <div class="jumbotron text-center">
   <div class="jumbotron text-center" ng-show="home.processing">
     <span ng-if="home.processing" class="glyphicon glyphicon-repeat spinner"></span>

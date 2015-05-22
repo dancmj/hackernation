@@ -16,7 +16,7 @@ module.exports = function(app, express) {
   
   apiRouter.route('/users').get(function(req, res){
     User.find({}, function(err, users){
-      if(err) return res.send(err);
+      if(err) return res.status(400).json(err);
       res.json(users);
     });
   });
@@ -24,7 +24,7 @@ module.exports = function(app, express) {
   //TODO, ADD GET THREADS & COMMENTS FROM USER
   apiRouter.route('/users/:user_id').get(function(req, res){
     User.findById(req.params.user_id, function(err, user){
-      if(err) res.send(err);
+      if(err) res.status(404).json(err);
       res.json(user);
     });
   });
@@ -41,22 +41,18 @@ module.exports = function(app, express) {
 
     thread.save(function(err){
       if(err){
-        if(err.code == 11000){
-          return res.json({ success: false, message: 'A thread with that title already exists.' });
-        }else{
-          res.send(err);
-        }
+        return res.status(400).json(err);
       } 
 
       User.findByIdAndUpdate(thread.authorId, { $push: {"threads": thread}}, {  safe: true, upsert: true}, function(err, model) {
-          if(err) res.send(err);
+          if(err) res.status(400).json(err);
       });
       
       res.json({ message: 'Thread created!' , id: thread._id });
     });
   }).get(function(req, res){
     Thread.find().populate('authorId').exec(function(err, threads){
-      if(err) return res.send(err);
+      if(err) return res.status(404).json(err);
       res.json(threads);
     });
   });
@@ -79,7 +75,7 @@ module.exports = function(app, express) {
   apiRouter.route('/threads/:thread_id')
   .get(function(req, res){
       Thread.findById(req.threadId).populate('authorId').exec(req.threadId, function(err, thread){
-        if(err) res.send(err);
+        if(err) res.status(404).json(err);
         res.json(thread);
       });
   });
@@ -96,21 +92,21 @@ module.exports = function(app, express) {
     comment.gistUrl = req.body.gistUrl;
     
     comment.save(function(err){
-      if(err) res.send(err);
+      if(err) res.status(400).json(err);
       
       User.findByIdAndUpdate(comment.authorId,{ $push: {"comments": comment}},{  safe: true, upsert: true},function(err, model) {
-          if(err) res.send(err);
+          if(err) res.status(400).json(err);
       });
       
       Thread.findByIdAndUpdate(comment.threadId,{ $push: {"comments": comment}},{  safe: true, upsert: true},function(err, model) {
-          if(err) res.send(err);
+          if(err) res.status(400).json(err);
       });
       
       res.json({ message: 'Comment posted!' , id: comment._id});
     });
   }).get(function(req, res){
     Comment.find({ threadId: req.threadId }).sort("-dateCreated").populate('authorId').exec( function(err, comments){
-      if(err) return res.send(err);
+      if(err) return res.status(404).json(err);
       res.json(comments);
     });
   });
@@ -126,12 +122,12 @@ module.exports = function(app, express) {
     comment.threadId = req.body.threadId;
     
     comment.save(function(err){
-      if(err) res.send(err);
+      if(err) res.status(400).json(err);
       res.json({ message: 'Comment posted!' });
     });
   }).get(function(req, res){
     Comment.find().populate('authorId').exec( function(err, comments){
-      if(err) return res.send(err);
+      if(err) return res.status(404).json(err);
       res.json(comments);
     });
   });
@@ -140,7 +136,7 @@ module.exports = function(app, express) {
   apiRouter.route('/comments/:comment_id')
   .get(function(req, res){
     Comment.findById(req.params.comment_id, function(err, comment){
-      if(err) res.send(err);
+      if(err) res.status(404).json(err);
       res.json(comment);
     });
   });
