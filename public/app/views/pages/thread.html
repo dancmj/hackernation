@@ -99,7 +99,7 @@
               <div class="row">
                 <div class="col-xs-12">
                   {{comment.authorId.username}} <i class="fa fa-clock-o"></i> {{main.getDate(comment.dateCreated)}}
-                  <button ng-if="comment.authorId.username === user.username" class="btn btn-danger pull-right" ng-click="thread.deleteComment()">
+                  <button ng-if="comment.authorId.username === user.username" class="btn btn-danger pull-right" ng-click="thread.deleteComment(comment._id)">
                     <i class="fa fa-trash-o fa-lg"></i>
                   </button>
                 </div>
