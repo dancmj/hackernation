@@ -117,3 +117,12 @@ input.extend-full-width {
 .white-background .form-control {
   background-color: #fff;
 }
+
+@media(max-width:767px){
+  h1, .h1{
+    font-size: 40px;
+  }
+}
+@media(min-width:768px){}
+@media(min-width:992px){}
+@media(min-width:1200px){}
